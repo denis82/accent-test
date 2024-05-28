@@ -33,13 +33,13 @@ Header -> отображение выбранного города
 1. клонировать репозиторий
 
 ```sh
-git clone git@github.com:denis82/todo.git
+git clone git@github.com:denis82/accent-test.git
 ```
 
 2. перейти в корень
 
 ```sh
-cd todo-back/
+cd accent-test/
 ```
 
 3. Переименовать конфиг файл
