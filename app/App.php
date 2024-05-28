@@ -67,20 +67,24 @@ class App
         return $this->_cityId;
     }
 
-    private function _refreshSessionCitiesIfEmpty(): void
+   private function _refreshSessionCitiesIfEmpty(): void
 	{
         if(session()->get('cities')){
             return;
         }
-        $mapped = Arr::mapWithKeys($this->_cityView->toArray(
-            $this->_getAllCitiesUseCase->getAll()
-        ), function (array $item, int $key) {
-            return [ $key =>
-                [ 'id' => $item['id'],
-                  'slug' => $item['slug'],
-                  'name' => $item['name']]
-                ];
-        });
+        try {
+            $mapped = Arr::mapWithKeys($this->_cityView->toArray(
+                $this->_getAllCitiesUseCase->getAll()
+            ), function (array $item, int $key) {
+                return [ $key =>
+                    [ 'id' => $item['id'],
+                    'slug' => $item['slug'],
+                    'name' => $item['name']]
+                    ];
+            });
+        } catch (\Throwable $th) {
+            $mapped = [];
+        }
         session()->put('cities',$mapped);
         $this->_sessionCities = session()->get('cities');
 	}

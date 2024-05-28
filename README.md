@@ -33,16 +33,22 @@ Header -> отображение выбранного города
 1. клонировать репозиторий
 
 ```sh
-git clone git@github.com:denis82/accent-test.git
+git clone git@github.com:denis82/todo.git
 ```
 
 2. перейти в корень
 
 ```sh
-cd accent-test/
+cd todo-back/
 ```
 
-3. поставить все пакеты
+3. Переименовать конфиг файл
+
+```sh
+mv .env.example .env
+```
+
+4. поставить все пакеты
 
 ```sh
 composer update
@@ -50,7 +56,7 @@ composer update
 > Note: Возможные проблемы, не соответсятвие версии компосера.
 
 
-4. Развернуть контеунеры
+5. Развернуть контеунеры
 
 ```sh
 docker-compose up -d
@@ -58,12 +64,6 @@ docker-compose up -d
 
 > Note: Возможные проблемы, занятые порты для nginx или mysql.
 
-
-5. Переименовать конфиг файл
-
-```sh
-mv .env.example .env
-```
 
 6. Запустить миграции
 
@@ -73,7 +73,7 @@ php artisan migrate
 
 > Note: Возможные проблемы, если запросы к базе отваливаются, в env сделать DB_HOST=mysql
 
-5. Если все прошло успешно запросы должны проходить так.
+7. Если все прошло успешно запросы должны проходить так.
 
 ```sh
 http://localhost/api/task
