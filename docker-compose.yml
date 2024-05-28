@@ -1,0 +1,47 @@
+version: "3"
+services:
+  app: &app-service-template
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    restart: always
+    volumes:
+      - .:/var/www
+      - ./docker/app/php-settings.ini:/usr/local/etc/php/conf.d/php-settings.ini
+    working_dir: /var/www
+  websockets:
+    <<: *app-service-template
+    # Debug
+    command: php /var/www/artisan websockets:serve --debug --verbose
+    # Production
+    #command: php /var/www/artisan websockets:serve --verbose
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "${APP_PORT:-80}:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: todo
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - dbdata:/var/lib/mysql}
+  composer:
+    image: composer:1.9
+    command: ["composer", "update"]
+    volumes:
+      - /var/www/docker-study.loc/recipe-05/php:/app
+volumes:
+  dbdata:
